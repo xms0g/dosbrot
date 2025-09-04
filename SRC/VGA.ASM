@@ -6,7 +6,6 @@ PALETTE_DATA  equ 03C9h
 public __waitvretrace
 public __putpixel
 public __setMode
-public __setPalette
 ; -------------------------------------------------------------
 ; void _Cdecl _waitvretrace(void)                             ;
 ; -------------------------------------------------------------
@@ -73,34 +72,4 @@ __setMode proc
     pop bp
     ret      
 __setMode endp
-
-; -------------------------------------------------------------
-; void _Cdecl _setPalette(unsigned char* palette)             ;
-; -------------------------------------------------------------
-__setPalette proc
-    push bp       
-    mov bp, sp
-    push si
-    push cx
-    
-    mov si, [bp+4] ; SI = palette pointer (DS:SI)
-    
-    mov dx, PALETTE_INDEX
-    xor al, al
-    out dx, al
-
-    mov dx, PALETTE_DATA
-    mov cx, 768    ; 256 colors * 3 components (R, G, B)
-
-next:
-    lodsb                ; AL = [DS:SI], SI++
-    out dx, al           ; write to DAC
-    loop next
-
-    pop cx
-    pop si
-    mov sp, bp
-    pop bp
-    ret      
-__setPalette endp
 end

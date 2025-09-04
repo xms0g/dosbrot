@@ -10,6 +10,5 @@
 void _Cdecl _waitvretrace(void);
 void _Cdecl _putpixel(int x, int y, char color);
 void _Cdecl _setMode(int mode);
-void _Cdecl _setPalette(unsigned char* palette);
 
 #endif
