@@ -3,9 +3,9 @@
 
 #include <_defs.h>
 // VGA GFX Mode
-#define MODE_VGA_13H 0x13
+#define VGA_MODE_13H 0x13
 // VGA Text Mode
-#define MODE_VGA_3H  0x3
+#define VGA__MODE_3H  0x3
 
 enum COLORS {
     BLACK,		    /* dark colors */
@@ -31,7 +31,7 @@ extern "C" {
 #endif
 void _Cdecl _waitvretrace(void);
 void _Cdecl _putpixel(int x, int y, char color);
-void _Cdecl _initMode(int mode);
+void _Cdecl _setMode(int mode);
 #ifdef __cplusplus
 }
 #endif

@@ -2,7 +2,7 @@
 .data
 .code
 public __waitvretrace
-public __initMode
+public __setMode
 public __putpixel
 ; -------------------------------------------------------------
 ; void _Cdecl _waitvretrace(void)                             ;
@@ -28,7 +28,7 @@ __waitvretrace endp
 ; -------------------------------------------------------------
 ; void _Cdecl _initMode(int mode)                        ;
 ; -------------------------------------------------------------
-__initMode proc
+__setMode proc
     push bp       
     mov bp, sp
     mov al, byte ptr [bp+4]
@@ -37,7 +37,7 @@ __initMode proc
     mov sp, bp
     pop bp
     ret      
-__initMode endp
+__setMode endp
 ; -------------------------------------------------------------
 ; void _Cdecl _putpixel(int x, int y, char color)             ;
 ; -------------------------------------------------------------
