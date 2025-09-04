@@ -1,7 +1,5 @@
 .model small
 .data
-PALETTE_INDEX equ 03C8h
-PALETTE_DATA  equ 03C9h
 .code
 public __waitvretrace
 public __putpixel
@@ -58,7 +56,7 @@ __putpixel proc
 __putpixel endp
 
 ; -------------------------------------------------------------
-; void _Cdecl _setMode(int mode)                             ;
+; void _Cdecl _setMode(int mode)                              ;
 ; -------------------------------------------------------------
 __setMode proc
     push bp       

@@ -4,7 +4,7 @@
 public __inp
 public __outp
 ; -------------------------------------------------------------
-; int _Cdecl _inp(unsigned int port);                             ;
+; int _Cdecl _inp(unsigned int port);                         ;
 ; -------------------------------------------------------------
 __inp proc
     push bp      
