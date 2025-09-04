@@ -1,5 +1,5 @@
-# Dosbrot - Mandelbrot Set Renderer for PC DOS
-**Dosbrot** is a lightweight Mandelbrot Set renderer for PC DOS systems.
+# dosbrot - Mandelbrot Set Renderer for PC DOS
+**dosbrot** is a lightweight Mandelbrot Set renderer for PC DOS systems.
 You can download the `EXE` file from [itch.io](https://xms0g.itch.io/dosbrot).
 
 <img src="RES/dosbrot.gif" alt="image" width="700" height="auto">
@@ -15,9 +15,11 @@ You can download the `EXE` file from [itch.io](https://xms0g.itch.io/dosbrot).
 C:\>MAKE.EXE
 ```
 or
-```
+```bash
 C:\>TASM /ml VGA.ASM
-C:\>TCC.EXE DOSBROT.C VGA.OBJ
+C:\>TASM /ml IO.ASM
+C:\>TCC.EXE -oKEYBRD.OBJ -c KEYBRD.C
+C:\>TCC.EXE DOSBROT.C VGA.OBJ IO.OBJ KEYBRD.OBJ
 ```
 
 ## Run
@@ -26,5 +28,4 @@ C:\>DOSBROT.EXE
 ```
 
 ## License
-
 This project is licensed under the MIT License. See the LICENSE file for details.
