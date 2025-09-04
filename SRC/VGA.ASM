@@ -97,8 +97,8 @@ next:
     out dx, al           ; write to DAC
     loop next
 
-    pop  cx
-    pop  si
+    pop cx
+    pop si
     mov sp, bp
     pop bp
     ret      
