@@ -1,9 +1,12 @@
 .model small
 .data
+PALETTE_INDEX equ 03C8h
+PALETTE_DATA  equ 03C9h
 .code
 public __waitvretrace
-public __setMode
 public __putpixel
+public __setMode
+public __setPalette
 ; -------------------------------------------------------------
 ; void _Cdecl _waitvretrace(void)                             ;
 ; -------------------------------------------------------------
@@ -25,25 +28,14 @@ v2:
     sti
     ret
 __waitvretrace endp
-; -------------------------------------------------------------
-; void _Cdecl _initMode(int mode)                        ;
-; -------------------------------------------------------------
-__setMode proc
-    push bp       
-    mov bp, sp
-    mov al, byte ptr [bp+4]
-    xor ah, ah         
-    int 10h
-    mov sp, bp
-    pop bp
-    ret      
-__setMode endp
+
 ; -------------------------------------------------------------
 ; void _Cdecl _putpixel(int x, int y, char color)             ;
 ; -------------------------------------------------------------
 __putpixel proc
     push bp      
     mov bp, sp
+
     push 0A000h
     pop es
     push di
@@ -59,9 +51,56 @@ __putpixel proc
     xor ax, ax
     mov al, byte ptr [bp+8] ;color
     stosb
+    
     pop di
     mov sp, bp
     pop bp
     ret        
 __putpixel endp
+
+; -------------------------------------------------------------
+; void _Cdecl _setMode(int mode)                             ;
+; -------------------------------------------------------------
+__setMode proc
+    push bp       
+    mov bp, sp
+
+    mov al, byte ptr [bp+4]
+    xor ah, ah         
+    int 10h
+
+    mov sp, bp
+    pop bp
+    ret      
+__setMode endp
+
+; -------------------------------------------------------------
+; void _Cdecl _setPalette(unsigned char* palette)             ;
+; -------------------------------------------------------------
+__setPalette proc
+    push bp       
+    mov bp, sp
+    push si
+    push cx
+    
+    mov si, [bp+4] ; SI = palette pointer (DS:SI)
+    
+    mov dx, PALETTE_INDEX
+    xor al, al
+    out dx, al
+
+    mov dx, PALETTE_DATA
+    mov cx, 768    ; 256 colors * 3 components (R, G, B)
+
+next:
+    lodsb                ; AL = [DS:SI], SI++
+    out dx, al           ; write to DAC
+    loop next
+
+    pop  cx
+    pop  si
+    mov sp, bp
+    pop bp
+    ret      
+__setPalette endp
 end
