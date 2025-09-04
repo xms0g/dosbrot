@@ -1,15 +1,23 @@
+#include <conio.h>
+#include <dos.h>
 #include "vga.h"
+#include "io.h"
 
 #define WIDTH 320
 #define HEIGHT 200
 
-int computeMandelbrot(double re, double im, int iteration);
+#define PALETTE_INDEX_PORT 0x3C8
+#define PALETTE_DATA_PORT  0x3C9
 
+int computeMandelbrot(double re, double im, int iteration);
 void initPalette(unsigned char* palette);
+void setPalette(unsigned char* palette);
+void cyclePalette(unsigned char* palette, int t);
 
 void main(void) {
     int x, y, value;
 	unsigned char palette[768];
+	int t = 0;
 	
     const double remin = -2.0;
     const double remax = 1.0;
@@ -22,7 +30,7 @@ void main(void) {
     _setMode(VGA_MODE_13H);
 	
 	initPalette(palette);
-	_setPalette(palette);
+	setPalette(palette);
 	
 	for (y = 0; y < HEIGHT; y++) {
 		double im = immax - y * dy;
@@ -32,6 +40,20 @@ void main(void) {
 			_putpixel(x, y, 255 - value % 256);
 		}	
 	}
+
+	while(1) {
+		if(kbhit()) {
+			getch();
+			break;
+		}
+
+		_waitvretrace();
+		_waitvretrace();
+		
+		cyclePalette(palette, t++);
+	}
+
+	_setMode(VGA_MODE_3H);
 }
 
 int computeMandelbrot(double re, double im, int iteration) {
@@ -76,5 +98,23 @@ void initPalette(unsigned char* palette) {
 		r += dr; 
 		g += dg; 
 		b += db;
+	}
+}
+
+void setPalette(unsigned char* palette) {
+	int i;
+
+	(void)outp(PALETTE_INDEX_PORT, 0);
+  	for (i = 0; i < 768; ++i) {
+		(void)outp(PALETTE_DATA_PORT, palette[i]);
+	}
+}
+
+void cyclePalette(unsigned char* palette, int t) {
+  	int i;
+
+	(void)outp(PALETTE_INDEX_PORT, 0);
+  	for (i = 0; i < 768; ++i) {
+		(void)outp(PALETTE_DATA_PORT, palette[(i + t*3) % 768]);
 	}
 }
