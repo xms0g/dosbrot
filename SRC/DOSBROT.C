@@ -3,27 +3,13 @@
 #define WIDTH 320
 #define HEIGHT 200
 
-#define CLAMP(v, lo, hi) (v < lo) ? lo:(v > hi) ? hi:v
-
-static char palette[12] = {
-	LIGHTMAGENTA,
-	MAGENTA,
-	BLUE,
-	LIGHTBLUE,
-	0x50,
-	CYAN,
-	LIGHTCYAN,
-	0x60,
-	YELLOW,
-    RED,
-    LIGHTRED,
-	GREEN
-};
-
 int computeMandelbrot(double re, double im, int iteration);
 
+void initPalette(unsigned char* palette);
+
 void main(void) {
-    int x,y,value;
+    int x, y, value;
+	unsigned char palette[768];
 	
     const double remin = -2.0;
     const double remax = 1.0;
@@ -33,32 +19,27 @@ void main(void) {
 	const double dx = (remax - remin)/(WIDTH - 1);
 	const double dy = (immax - immin)/(HEIGHT - 1);
     
-    _initMode(MODE_VGA_13H);
+    _setMode(VGA_MODE_13H);
 	
-	_waitvretrace();
+	initPalette(palette);
+	_setPalette(palette);
 	
 	for (y = 0; y < HEIGHT; y++) {
 		double im = immax - y * dy;
 
 		for (x = 0; x < WIDTH; x++) {
-			value = computeMandelbrot(remin + x * dx, im, 100);
-			
-			if (value == 100) 
-				_putpixel(x, y, BLACK);
-			else {
-				value = CLAMP(value, 0, 11);
-				_putpixel(x, y, palette[value]);
-			}	
-		}
+			value = computeMandelbrot(remin + x * dx, im, 255);
+			_putpixel(x, y, 255 - value % 256);
+		}	
 	}
 }
 
 int computeMandelbrot(double re, double im, int iteration) {
-    int i;
-    double zR = re;
+   	double zR = re;
     double zI = im;
-
-    for (i = 0; i < iteration; ++i) {
+	
+	int i;
+	for (i = 0; i < iteration; ++i) {
 	    double r2 = zR * zR;
 	    double i2 = zI * zI;
 		
@@ -71,4 +52,29 @@ int computeMandelbrot(double re, double im, int iteration) {
 	}
     
 	return iteration;
+}
+
+void initPalette(unsigned char* palette) {
+	signed char r = 0, g = 0, b = 0;
+	int dr = 1, dg = 3, db = 2;
+	
+	int i;
+	for (i = 0; i < 256; ++i) {
+		palette[i * 3 + 0] = (unsigned char)r;
+		palette[i * 3 + 1] = (unsigned char)g;
+		palette[i * 3 + 2] = (unsigned char)b;
+		
+		if (r + dr > 63 || r + dr < 0) {
+			dr = -dr;
+		}
+		if(g + dg > 63 || g + dg < 0) {
+			dg = -dg;
+		}
+		if(b + db > 63 || b + db < 0) {
+			db = -db;
+		}
+		r += dr; 
+		g += dg; 
+		b += db;
+	}
 }
