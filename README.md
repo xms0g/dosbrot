@@ -1,8 +1,8 @@
-# dosbrot - Mandelbrot Set Renderer for PC DOS
-**dosbrot** is a lightweight Mandelbrot Set renderer for PC DOS systems.
-You can download the `EXE` file from [itch.io](https://xms0g.itch.io/dosbrot).
+# psymandl
+Psychedelic Mandelbrot on PC DOS/MS-DOS.
+You can download the `EXE` file from [itch.io](https://xms0g.itch.io/psymandl).
 
-<img src="RES/dosbrot.gif" alt="image" width="700" height="auto">
+<img src="RES/psymandl.gif" alt="image" width="700" height="auto">
 
 ## Prerequisites
 - **Turbo C++** (`TCC.EXE`) version 3.0 or later  
@@ -19,12 +19,12 @@ or
 C:\>TASM /ml VGA.ASM
 C:\>TASM /ml IO.ASM
 C:\>TCC.EXE -oKEYBRD.OBJ -c KEYBRD.C
-C:\>TCC.EXE DOSBROT.C VGA.OBJ IO.OBJ KEYBRD.OBJ
+C:\>TCC.EXE PSYMANDL.C VGA.OBJ IO.OBJ KEYBRD.OBJ
 ```
 
 ## Run
 ```bash
-C:\>DOSBROT.EXE
+C:\>PSYMANDL.EXE
 ```
 
 ## License
