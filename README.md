@@ -1,8 +1,8 @@
 # Dosbrot - Mandelbrot Set Renderer for PC DOS
 **Dosbrot** is a lightweight Mandelbrot Set renderer for PC DOS systems.
-You can download the `EXE` file from [itch.io](https://ms0g.itch.io/dosbrot).
+You can download the `EXE` file from [itch.io](https://xms0g.itch.io/dosbrot).
 
-<img src="RES/mandelbrot.png" alt="image" width="700" height="auto">
+<img src="RES/dosbrot.gif" alt="image" width="700" height="auto">
 
 ## Prerequisites
 - **Turbo C++** (`TCC.EXE`) version 3.0 or later  
