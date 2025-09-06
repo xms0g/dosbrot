@@ -80,19 +80,16 @@ void initPalette(unsigned char* palette) {
 	
 	int i;
 	for (i = 0; i < 256; ++i) {
-		palette[i * 3 + 0] = (unsigned char)r;
-		palette[i * 3 + 1] = (unsigned char)g;
-		palette[i * 3 + 2] = (unsigned char)b;
+		unsigned char* rgb = &palette[i * 3];
 		
-		if (r + dr > 63 || r + dr < 0) {
-			dr = -dr;
-		}
-		if(g + dg > 63 || g + dg < 0) {
-			dg = -dg;
-		}
-		if(b + db > 63 || b + db < 0) {
-			db = -db;
-		}
+		*rgb++ = (unsigned char)r;
+		*rgb++ = (unsigned char)g;
+		*rgb++ = (unsigned char)b;
+		
+		if (r + dr > 63 || r + dr < 0) dr = -dr;
+		if (g + dg > 63 || g + dg < 0) dg = -dg;
+		if (b + db > 63 || b + db < 0) db = -db;
+		
 		r += dr; 
 		g += dg; 
 		b += db;
