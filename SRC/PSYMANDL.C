@@ -8,6 +8,8 @@
 #define DAC_INDEX 0x3C8
 #define DAC_DATA  0x3C9
 
+static unsigned char palette[256 * 3];
+
 int computeMandelbrot(double re, double im, int iteration);
 void initPalette(unsigned char* palette);
 void setPalette(unsigned char* palette);
@@ -15,7 +17,6 @@ void cyclePalette(unsigned char* palette, int t);
 
 void main(void) {
     int x, y, value;
-	unsigned char palette[768];
 	int t = 0;
 	
     const double remin = -2.0;
