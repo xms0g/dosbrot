@@ -11,9 +11,9 @@
 static unsigned char palette[256 * 3];
 
 int computeMandelbrot(double re, double im, int iteration);
-void initPalette(unsigned char* palette);
-void setPalette(unsigned char* palette);
-void cyclePalette(unsigned char* palette, int shift);
+void initPalette(void);
+void setPalette(void);
+void cyclePalette(int shift);
 
 void main(void) {
     int x, y, value;
@@ -30,8 +30,8 @@ void main(void) {
     _setMode(VGA_MODE_13H);
 	kbInit();
 	
-	initPalette(palette);
-	setPalette(palette);
+	initPalette();
+	setPalette();
 	
 	for (y = 0; y < HEIGHT; y++) {
 		double im = immax - y * dy;
@@ -48,7 +48,7 @@ void main(void) {
 		_waitvretrace();
 		_waitvretrace();
 		
-		cyclePalette(palette, shift++);
+		cyclePalette(shift++);
 	}
 
 	_setMode(VGA_MODE_3H);
@@ -75,7 +75,7 @@ int computeMandelbrot(double re, double im, int iteration) {
 	return iteration;
 }
 
-void initPalette(unsigned char* palette) {
+void initPalette(void) {
 	signed char r = 0, g = 0, b = 0;
 	int dr = 1, dg = 3, db = 2;
 	
@@ -97,7 +97,7 @@ void initPalette(unsigned char* palette) {
 	}
 }
 
-void setPalette(unsigned char* palette) {
+void setPalette(void) {
 	int i;
 
 	_outp(DAC_INDEX, 0);
@@ -106,7 +106,7 @@ void setPalette(unsigned char* palette) {
 	}
 }
 
-void cyclePalette(unsigned char* palette, int shift) {
+void cyclePalette(int shift) {
   	int i;
 	int offset = shift * 3;
 
