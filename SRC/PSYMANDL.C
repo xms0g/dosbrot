@@ -13,11 +13,11 @@ static unsigned char palette[256 * 3];
 int computeMandelbrot(double re, double im, int iteration);
 void initPalette(unsigned char* palette);
 void setPalette(unsigned char* palette);
-void cyclePalette(unsigned char* palette, int t);
+void cyclePalette(unsigned char* palette, int shift);
 
 void main(void) {
     int x, y, value;
-	int t = 0;
+	int shift = 0;
 	
     const double remin = -2.0;
     const double remax = 1.0;
@@ -48,7 +48,7 @@ void main(void) {
 		_waitvretrace();
 		_waitvretrace();
 		
-		cyclePalette(palette, t++);
+		cyclePalette(palette, shift++);
 	}
 
 	_setMode(VGA_MODE_3H);
@@ -106,11 +106,12 @@ void setPalette(unsigned char* palette) {
 	}
 }
 
-void cyclePalette(unsigned char* palette, int t) {
+void cyclePalette(unsigned char* palette, int shift) {
   	int i;
+	int offset = shift * 3;
 
 	_outp(DAC_INDEX, 0);
   	for (i = 0; i < 768; ++i) {
-		_outp(DAC_DATA, palette[(i + t*3) % 768]);
+		_outp(DAC_DATA, palette[(i + offset) % 768]);
 	}
 }
