@@ -108,10 +108,13 @@ void setPalette(void) {
 
 void cyclePalette(int shift) {
   	int i;
-	int offset = shift * 3;
+	int offset = ((shift << 1) + shift);
+	int q = (offset >> 8) / 3;
+	int r = offset - (q << 8) - (q << 9);
 
 	_outp(DAC_INDEX, 0);
   	for (i = 0; i < 768; ++i) {
-		_outp(DAC_DATA, palette[(i + offset) % 768]);
+		int idx = i + r;
+		_outp(DAC_DATA, palette[idx > 768 ? idx - 768: idx]);
 	}
 }
