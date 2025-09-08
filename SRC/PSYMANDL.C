@@ -10,10 +10,10 @@
 
 static unsigned char palette[256 * 3];
 
-int computeMandelbrot(double re, double im, int iteration);
-void initPalette(void);
-void setPalette(void);
-void cyclePalette(int shift);
+static int computeMandelbrot(double re, double im, int iteration);
+static void initPalette(void);
+static void setPalette(void);
+static void cyclePalette(int shift);
 
 void main(void) {
     int x, y, value;
